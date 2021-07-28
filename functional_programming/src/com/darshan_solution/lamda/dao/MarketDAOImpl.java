@@ -3,6 +3,7 @@ package com.darshan_solution.lamda.dao;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 import com.darshan_solution.lamda.constants.MarketType;
 import com.darshan_solution.lamda.dto.MarketDTO;
@@ -29,35 +30,44 @@ public class MarketDAOImpl implements MarketDAO {
 
 	@Override
 	public MarketDTO findBy(MarketSearch marketSearch) {
-		Iterator<MarketDTO> itr = this.collection.iterator();
-		MarketDTO temp = null;
-		while (itr.hasNext()) {
-			MarketDTO marketDTO = itr.next();
 
-			if (marketSearch.test(marketDTO)) {
-				temp = marketDTO;
-				break;
+		List<MarketDTO> temp = new ArrayList<MarketDTO>();
+		this.collection.forEach(d -> {
+			if (marketSearch.test(d)) {
+				temp.add(d);
 			}
+		});
 
-		}
-		return temp;
+		/*
+		 * Iterator<MarketDTO> itr = this.collection.iterator(); MarketDTO temp = null;
+		 * while (itr.hasNext()) { MarketDTO marketDTO = itr.next();
+		 * 
+		 * if (marketSearch.test(marketDTO)) { temp = marketDTO; break; }
+		 * 
+		 * }
+		 */
+		return temp.get(0);
 	}
 
 	@Override
 
 	public Collection<MarketDTO> findAll(MarketSearch marketSearch) {
-		Iterator<MarketDTO> itr = this.collection.iterator();
+		// Iterator<MarketDTO> itr = this.collection.iterator();
 		Collection<MarketDTO> temp = new ArrayList<MarketDTO>();
-
-		while (itr.hasNext()) {
-			MarketDTO marketDTO = itr.next();
-
-			if (marketSearch.test(marketDTO)) {
-				temp.add(marketDTO);
-
+		this.collection.forEach(d -> {
+			if (marketSearch.test(d)) {
+				temp.add(d);
 			}
-
-		}
+		});
+		/*
+		 * while (itr.hasNext()) { MarketDTO marketDTO = itr.next();
+		 * 
+		 * if (marketSearch.test(marketDTO)) { temp.add(marketDTO);
+		 * 
+		 * }
+		 * 
+		 * }
+		 */
 		return temp;
 	}
 
